@@ -308,7 +308,7 @@ module LibertyBuildpack::Container
         endpoints.drop(1).each { |element| element.parent.delete_element(element) }
       end
       endpoint.add_attribute('host', '*')
-      endpoint.add_attribute('httpPort', "${#{KEY_HTTP_PORT}}")
+      endpoint.add_attribute('httpsPort', "${#{KEY_HTTP_PORT}}")
     end
 
     def update_web_container(server_xml_doc)
