@@ -309,7 +309,6 @@ module LibertyBuildpack::Container
       end
       endpoint.add_attribute('host', '*')
       endpoint.add_attribute('httpPort', "${#{KEY_HTTP_PORT}}")
-      endpoint.delete_attribute('httpsPort')
     end
 
     def update_web_container(server_xml_doc)
