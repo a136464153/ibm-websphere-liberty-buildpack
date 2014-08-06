@@ -453,7 +453,7 @@ module LibertyBuildpack::Container
         # if the liberty feature manager and repository are not being used to install server
         # features, download the required files from the various configured locations. If the
         # repository is being used it will install features later (after server.xml is updated).
-        unless FeatureManager.enabled?(@configuration)
+        ok unless FeatureManager.enabled?(@configuration)
           # download and extract the extended server files to the same location, if required.
           if @services_manager.requires_liberty_extensions? || configured_feature_requires_component?(COMPONENT_LIBERTY_EXT)
             download_and_unpack_archive(uri, root) if (uri = @liberty_components_and_uris.delete(COMPONENT_LIBERTY_EXT))
@@ -613,7 +613,7 @@ module LibertyBuildpack::Container
     # Returns the version, artifact uri, and license of the requested item in the index file
     def self.find_liberty_item(app_dir, configuration)
       bin_dir?(app_dir)
-      if server_xml(app_dir) || web_inf(app_dir) || meta_inf(app_dir)
+      if (!LibertyBuildpack::Util::JavaMainUtils.main_class(app_dir) && (server_xml(app_dir) || web_inf(app_dir) || meta_inf(app_dir))
         version, config_uri, license = LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration) do |candidate_version|
           fail "Malformed Liberty version #{candidate_version}: too many version components" if candidate_version[4]
         end
